@@ -1,7 +1,6 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
-import emailjs from "@emailjs/browser";
+import React, { useState } from "react";
 
 interface FormData {
   nom: string;
@@ -27,10 +26,6 @@ export default function ContactForm() {
   const [messageType, setMessageType] = useState<"success" | "error" | "">(
     ""
   );
-
-  useEffect(() => {
-    emailjs.init(process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY || "");
-  }, []);
 
   const handleChange = (
     e: React.ChangeEvent<
@@ -77,25 +72,20 @@ export default function ContactForm() {
     }
 
     try {
-      const templateParams = {
-        to_email: "info@linaconstructions.com",
-        client_name: formData.nom,
-        client_email: formData.email,
-        client_phone: formData.telephone,
-        project_type: formData.typeProjet,
-        budget: formData.budget,
-        description: formData.description,
-        date: new Date().toLocaleString("fr-TN"),
-        reply_to: formData.email,
-      };
+      const response = await fetch("/api/send-contact", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          ...formData,
+          date: new Date().toLocaleString("fr-TN"),
+        }),
+      });
 
-      const response = await emailjs.send(
-        process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID || "",
-        process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID || "",
-        templateParams
-      );
+      const result = await response.json();
 
-      if (response.status === 200) {
+      if (response.ok) {
         setMessage(
           "Votre demande a été envoyée avec succès ! Nous vous contacterons dans les plus brefs délais."
         );
@@ -113,9 +103,15 @@ export default function ContactForm() {
         setTimeout(() => {
           setMessage("");
         }, 5000);
+      } else {
+        setMessage(
+          result.error ||
+            "Une erreur est survenue lors de l'envoi. Veuillez réessayer."
+        );
+        setMessageType("error");
       }
     } catch (error) {
-      console.error("Email error:", error);
+      console.error("Error:", error);
       setMessage(
         "Une erreur est survenue lors de l'envoi. Veuillez réessayer ou nous contacter directement."
       );
@@ -127,14 +123,18 @@ export default function ContactForm() {
 
   return (
     <div style={{ marginLeft: "20px", marginRight: "20px" }}>
-      <form onSubmit={handleSubmit} style={{ maxWidth: "600px", margin: "0 auto" }}>
+      <form
+        onSubmit={handleSubmit}
+        style={{ maxWidth: "600px", margin: "0 auto" }}
+      >
         {message && (
           <div
             style={{
               padding: "15px",
               marginBottom: "20px",
               borderRadius: "4px",
-              backgroundColor: messageType === "success" ? "#d4edda" : "#f8d7da",
+              backgroundColor:
+                messageType === "success" ? "#d4edda" : "#f8d7da",
               color: messageType === "success" ? "#155724" : "#721c24",
               border: `1px solid ${
                 messageType === "success" ? "#c3e6cb" : "#f5c6cb"
@@ -150,7 +150,11 @@ export default function ContactForm() {
         <div style={{ marginBottom: "15px" }}>
           <label
             htmlFor="nom"
-            style={{ display: "block", marginBottom: "5px", fontWeight: "bold" }}
+            style={{
+              display: "block",
+              marginBottom: "5px",
+              fontWeight: "bold",
+            }}
           >
             Nom *
           </label>
@@ -176,7 +180,11 @@ export default function ContactForm() {
         <div style={{ marginBottom: "15px" }}>
           <label
             htmlFor="email"
-            style={{ display: "block", marginBottom: "5px", fontWeight: "bold" }}
+            style={{
+              display: "block",
+              marginBottom: "5px",
+              fontWeight: "bold",
+            }}
           >
             Email *
           </label>
@@ -202,7 +210,11 @@ export default function ContactForm() {
         <div style={{ marginBottom: "15px" }}>
           <label
             htmlFor="telephone"
-            style={{ display: "block", marginBottom: "5px", fontWeight: "bold" }}
+            style={{
+              display: "block",
+              marginBottom: "5px",
+              fontWeight: "bold",
+            }}
           >
             Téléphone *
           </label>
@@ -228,7 +240,11 @@ export default function ContactForm() {
         <div style={{ marginBottom: "15px" }}>
           <label
             htmlFor="typeProjet"
-            style={{ display: "block", marginBottom: "5px", fontWeight: "bold" }}
+            style={{
+              display: "block",
+              marginBottom: "5px",
+              fontWeight: "bold",
+            }}
           >
             Type de projet *
           </label>
@@ -271,7 +287,11 @@ export default function ContactForm() {
         <div style={{ marginBottom: "15px" }}>
           <label
             htmlFor="budget"
-            style={{ display: "block", marginBottom: "5px", fontWeight: "bold" }}
+            style={{
+              display: "block",
+              marginBottom: "5px",
+              fontWeight: "bold",
+            }}
           >
             Budget (optionnel)
           </label>
@@ -296,7 +316,11 @@ export default function ContactForm() {
         <div style={{ marginBottom: "20px" }}>
           <label
             htmlFor="description"
-            style={{ display: "block", marginBottom: "5px", fontWeight: "bold" }}
+            style={{
+              display: "block",
+              marginBottom: "5px",
+              fontWeight: "bold",
+            }}
           >
             Description du projet *
           </label>
@@ -336,12 +360,12 @@ export default function ContactForm() {
             transition: "background-color 0.3s",
           }}
           onMouseEnter={(e) => {
-            if (!loading) (e.target as HTMLButtonElement).style.backgroundColor =
-              "#e68a2e";
+            if (!loading)
+              (e.target as HTMLButtonElement).style.backgroundColor = "#e68a2e";
           }}
           onMouseLeave={(e) => {
-            if (!loading) (e.target as HTMLButtonElement).style.backgroundColor =
-              "#ff9d3a";
+            if (!loading)
+              (e.target as HTMLButtonElement).style.backgroundColor = "#ff9d3a";
           }}
         >
           {loading ? "Envoi en cours..." : "Envoyer ma demande"}

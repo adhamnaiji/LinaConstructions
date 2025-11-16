@@ -29,6 +29,10 @@ import image24 from "./projects/24.jpeg";
 import image25 from "./projects/25.jpeg";
 import image26 from "./projects/26.jpeg";
 import image27 from "./projects/27.jpeg";
+import image28 from "./projects/28.jpg";
+import image29 from "./projects/29.jpg";
+import image30 from "./projects/30.jpg";
+import image31 from "./projects/31.jpg"; 
 
 const projectsData = [
   { id: 1, category: "lina constructions", src: image1, alt: "Projet 1" },
@@ -58,6 +62,10 @@ const projectsData = [
   { id: 25, category: "lina constructions", src: image25, alt: "Projet 25" },
   { id: 26, category: "lina constructions", src: image26, alt: "Projet 26" },
   { id: 27, category: "lina constructions", src: image27, alt: "Projet 27" },
+  { id: 28, category: "lina constructions", src: image28, alt: "Projet 28" },
+  { id: 29, category: "lina constructions", src: image29, alt: "Projet 29" },
+  { id: 30, category: "lina constructions", src: image30, alt: "Projet 30" },
+  { id: 31, category: "lina constructions", src: image31, alt: "Projet 31" },
 ];
 
 export default function Projects() {
