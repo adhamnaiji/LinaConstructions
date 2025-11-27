@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import image1 from "./projects/1.jpeg";
 import image2 from "./projects/2.jpeg";
 import image3 from "./projects/3.jpeg";
@@ -32,10 +32,17 @@ import image27 from "./projects/27.jpeg";
 import image28 from "./projects/28.jpg";
 import image29 from "./projects/29.jpg";
 import image30 from "./projects/30.jpg";
-import image31 from "./projects/31.jpg"; 
+import image31 from "./projects/31.jpg";
+import image32 from "./projects/32.jpg";
+import image33 from "./projects/33.jpg";
+import image34 from "./projects/34.jpg";
+import image35 from "./projects/35.jpg";
+import image36 from "./projects/36.jpg";
+import image37 from "./projects/37.jpg";
+
 
 const projectsData = [
-  { id: 1, category: "lina constructions", src: image1, alt: "Projet 1" },
+  { id: 1, category: "lina constructions ", src: image1, alt: "Projet 1" },
   { id: 2, category: "lina constructions", src: image2, alt: "Projet 2" },
   { id: 3, category: "lina constructions", src: image3, alt: "Projet 3" },
   { id: 4, category: "lina constructions", src: image4, alt: "Projet 4" },
@@ -66,210 +73,58 @@ const projectsData = [
   { id: 29, category: "lina constructions", src: image29, alt: "Projet 29" },
   { id: 30, category: "lina constructions", src: image30, alt: "Projet 30" },
   { id: 31, category: "lina constructions", src: image31, alt: "Projet 31" },
+  { id: 31, category: "lina constructions", src: image32, alt: "Projet 32" },
+  { id: 31, category: "lina constructions", src: image33, alt: "Projet 33" },
+  { id: 31, category: "lina constructions", src: image34, alt: "Projet 34" },
+  { id: 31, category: "lina constructions", src: image35, alt: "Projet 35" },
+  { id: 31, category: "lina constructions", src: image36, alt: "Projet 36" },
+  { id: 31, category: "lina constructions", src: image37, alt: "Projet 37" },
 ];
+
+// Component to track individual image loading
+function ProjectCard({ project }: { project: (typeof projectsData)[0] }) {
+  const [isLoaded, setIsLoaded] = useState(false);
+
+  return (
+    <div className="group overflow-hidden rounded-lg shadow-md hover:shadow-lg transition">
+      <div className={`relative h-64 overflow-hidden transition-all duration-300 ${
+        isLoaded ? "bg-transparent" : "bg-gray-200 animate-pulse"
+      }`}>
+        <Image
+          src={project.src}
+          alt={project.alt}
+          fill
+          className="object-cover group-hover:scale-105 transition duration-300"
+          loading="lazy"
+          sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
+          onLoad={() => setIsLoaded(true)}
+        />
+      </div>
+    </div>
+  );
+}
 
 export default function Projects() {
   const [filter, setFilter] = useState("tous");
-  const [loading, setLoading] = useState(true);
-  const [loadedImages, setLoadedImages] = useState(0);
 
   const filteredProjects =
     filter === "tous"
       ? projectsData
       : projectsData.filter((project) => project.category === filter);
 
-  // Track image loading
-  const handleImageLoad = () => {
-    setLoadedImages((prev) => {
-      const newCount = prev + 1;
-      // Hide loading screen when all images are loaded
-      if (newCount >= filteredProjects.length) {
-        setTimeout(() => setLoading(false), 300); // Small delay for smooth transition
-      }
-      return newCount;
-    });
-  };
-
-  // Reset loading when filter changes
-  useEffect(() => {
-    setLoading(true);
-    setLoadedImages(0);
-  }, [filter]);
-
   return (
-    <section id="projects" className="section">
-      <div className="container">
-        <div className="section-title">
-          <div>
-            <h2>Nos Projets</h2>
-            <h3>Réalisations de qualité</h3>
-          </div>
-        </div>
-        
-        
-      
-
-        {/* Loading Splash Screen */}
-        {loading && (
-          <div className="loading-screen">
-            <div className="spinner"></div>
-            <p>Chargement des projets...</p>
-            <div className="progress-bar">
-              <div
-                className="progress-fill"
-                style={{
-                  width: `${(loadedImages / filteredProjects.length) * 100}%`,
-                }}
-              ></div>
-            </div>
-          </div>
-        )}
+    <section id="projects" className="py-20 bg-gray-50">
+      <div className="max-w-7xl mx-auto px-4">
+        <h2 className="text-4xl font-bold text-center mb-4 text-gray-900">Nos Projets</h2>
+        <p className="text-center text-gray-600 mb-12">Réalisations de qualité</p>
 
         {/* Projects Grid */}
-        <div className={`projects ${loading ? "hidden" : ""}`}>
-          {filteredProjects.map((project, index) => (
-            <div key={project.id} className="project">
-              <Image
-                src={project.src}
-                alt={project.alt}
-                width={942}
-                height={747}
-                placeholder="blur"
-                priority={index < 3}
-                className="project-image"
-                onLoadingComplete={handleImageLoad}
-              />
-            </div>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {filteredProjects.map((project) => (
+            <ProjectCard key={project.id} project={project} />
           ))}
         </div>
       </div>
-
-      <style jsx>{`
-        .section {
-          padding: clamp(56px, 7vw, 96px) 0;
-          scroll-margin-top: 80px;
-        }
-        .section-title {
-          display: flex;
-          align-items: end;
-          justify-content: space-between;
-          gap: 1rem;
-          margin-bottom: 28px;
-        }
-        .section-title h2 {
-          font-size: clamp(1.4rem, 3.4vw, 2.2rem);
-          margin: 0;
-        }
-        .section-title p {
-          color: var(--muted);
-          margin: 0;
-        }
-        .filters {
-          display: flex;
-          gap: 0.6rem;
-          flex-wrap: wrap;
-          margin-bottom: 28px;
-        }
-        .chip {
-          border: 1px solid var(--line);
-          padding: 0.45rem 0.8rem;
-          border-radius: 999px;
-          background: var(--card);
-          color: var(--muted);
-          cursor: pointer;
-          font-weight: 700;
-          transition: all 0.2s;
-        }
-        .chip.active {
-          background: var(--brand);
-          color: #fff;
-          border-color: transparent;
-        }
-
-        /* Loading Screen */
-        .loading-screen {
-          display: flex;
-          flex-direction: column;
-          align-items: center;
-          justify-content: center;
-          min-height: 400px;
-          gap: 20px;
-        }
-        .spinner {
-          width: 50px;
-          height: 50px;
-          border: 4px solid var(--line);
-          border-top: 4px solid var(--brand);
-          border-radius: 50%;
-          animation: spin 1s linear infinite;
-        }
-        @keyframes spin {
-          0% {
-            transform: rotate(0deg);
-          }
-          100% {
-            transform: rotate(360deg);
-          }
-        }
-        .loading-screen p {
-          color: var(--muted);
-          font-size: 1.1rem;
-        }
-        .progress-bar {
-          width: 300px;
-          height: 4px;
-          background: var(--line);
-          border-radius: 2px;
-          overflow: hidden;
-        }
-        .progress-fill {
-          height: 100%;
-          background: var(--brand);
-          transition: width 0.3s ease;
-        }
-
-        /* Projects Grid */
-        .projects {
-          display: grid;
-          gap: 18px;
-          grid-template-columns: repeat(3, 1fr);
-          opacity: 1;
-          transition: opacity 0.3s ease;
-        }
-        .projects.hidden {
-          opacity: 0;
-          height: 0;
-          overflow: hidden;
-        }
-        .project {
-          position: relative;
-          border-radius: 16px;
-          overflow: hidden;
-          background: #0f1115;
-          border: 1px solid var(--line);
-          aspect-ratio: 942 / 747;
-        }
-        :global(.project-image) {
-          width: 100% !important;
-          height: 100% !important;
-          object-fit: cover;
-          display: block;
-        }
-        .project:hover :global(.project-image) {
-          transform: scale(1.06);
-          transition: transform 0.4s ease;
-        }
-        @media (max-width: 980px) {
-          .projects {
-            grid-template-columns: repeat(2, 1fr);
-          }
-        }
-        @media (max-width: 580px) {
-          .projects {
-            grid-template-columns: 1fr;
-          }
-        }
-      `}</style>
     </section>
   );
 }
