@@ -1,4 +1,4 @@
-"use client"
+"use client";
 
 export default function Services() {
   const services = [
@@ -33,15 +33,15 @@ export default function Services() {
       title: "Rénovation & Réhabilitation",
       description: "Réhabilitation complète avec phasage intelligent.",
     },
-  ]
+  ];
 
   return (
-    <section id="services" className="section">
+    <section id="services" className="services-section">
       <div className="container">
         <div className="section-title">
           <div>
             <h2>Services de Construction</h2>
-            <p>Solutions adaptées à vos besoins</p>
+            <p style={{marginTop:"8px"}}>Solutions adaptées à vos besoins</p>
           </div>
         </div>
         <div className="grid cols-3">
@@ -58,9 +58,32 @@ export default function Services() {
       </div>
 
       <style jsx>{`
-        .section {
+        .services-section {
+          background: linear-gradient(135deg, #1a1a1a 0%, #2a2a2a 50%, #1f1f1f 100%);
           padding: clamp(56px, 7vw, 96px) 0;
           scroll-margin-top: 80px;
+          position: relative;
+          overflow: hidden;
+        }
+
+        .services-section::before {
+          content: '';
+          position: absolute;
+          top: 0;
+          left: 0;
+          right: 0;
+          height: 2px;
+          background: linear-gradient(90deg, transparent 0%, #ff8c00 50%, transparent 100%);
+        }
+
+        .services-section::after {
+          content: '';
+          position: absolute;
+          bottom: 0;
+          left: 0;
+          right: 0;
+          height: 2px;
+          background: linear-gradient(90deg, transparent 0%, #ff8c00 50%, transparent 100%);
         }
 
         .section-title {
@@ -68,22 +91,43 @@ export default function Services() {
           align-items: end;
           justify-content: space-between;
           gap: 1rem;
-          margin-bottom: 28px;
+          margin-bottom: 48px;
+          position: relative;
+          z-index: 1;
         }
 
         .section-title h2 {
-          font-size: clamp(1.4rem, 3.4vw, 2.2rem);
-          margin: 0;
+          font-size: clamp(1.8rem, 3.4vw, 2.4rem);
+          margin: 0 0 8px 0;
+          color: #ffffff;
+          font-weight: 600;
+          position: relative;
+          display: inline-block;
+          letter-spacing: 0.5px;
+        }
+
+        .section-title h2::after {
+          content: '';
+          position: absolute;
+          bottom: -16px;
+          left: 0;
+          width: 60px;
+          height: 3px;
+          background: linear-gradient(90deg, #ff8c00 0%, #ff6b35 100%);
         }
 
         .section-title p {
-          color: var(--muted);
+          color: #e0e7ff;
           margin: 0;
+          font-size: 1rem;
+          transition: color 0.3s ease;
         }
 
         .grid {
           display: grid;
-          gap: 18px;
+          gap: 24px;
+          position: relative;
+          z-index: 1;
         }
 
         .grid.cols-3 {
@@ -91,51 +135,131 @@ export default function Services() {
         }
 
         .card {
-          background: var(--card);
-          border: 1px solid var(--line);
-          border-radius: var(--radius);
-          padding: 22px;
-          box-shadow: var(--shadow);
-          transition: transform 0.2s ease, box-shadow 0.2s ease;
+          background: linear-gradient(135deg, rgba(42, 42, 42, 0.8) 0%, rgba(31, 31, 31, 0.8) 100%);
+          border: 1px solid rgba(255, 140, 0, 0.2);
+          border-radius: 12px;
+          padding: 28px;
+          box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 140, 0, 0.1);
+          transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+          position: relative;
+          overflow: hidden;
+          backdrop-filter: blur(10px);
+        }
+
+        .card::before {
+          content: '';
+          position: absolute;
+          top: 0;
+          left: 0;
+          right: 0;
+          height: 2px;
+          background: linear-gradient(90deg, transparent 0%, #ff8c00 50%, transparent 100%);
+          opacity: 0;
+          transition: opacity 0.3s ease;
         }
 
         .card:hover {
-          transform: translateY(-4px);
+          transform: translateY(-8px);
+          border-color: rgba(255, 140, 0, 0.4);
+          box-shadow: 0 12px 40px rgba(255, 140, 0, 0.2), inset 0 1px 0 rgba(255, 140, 0, 0.2);
+          background: linear-gradient(135deg, rgba(42, 42, 42, 0.95) 0%, rgba(31, 31, 31, 0.95) 100%);
+        }
+
+        .card:hover::before {
+          opacity: 1;
         }
 
         .service-head {
           display: flex;
           align-items: center;
-          gap: 12px;
-          margin-bottom: 8px;
+          gap: 16px;
+          margin-bottom: 16px;
         }
 
         .service-ico {
-          width: 44px;
-          height: 44px;
-          border-radius: 12px;
-          background: color-mix(in srgb, var(--brand) 16%, transparent);
+          width: 50px;
+          height: 50px;
+          border-radius: 10px;
+          background: linear-gradient(135deg, rgba(255, 140, 0, 0.15) 0%, rgba(255, 107, 53, 0.1) 100%);
           display: grid;
           place-items: center;
-          font-size: 22px;
+          font-size: 28px;
+          border: 1px solid rgba(255, 140, 0, 0.2);
+          flex-shrink: 0;
+          transition: all 0.3s ease;
+        }
+
+        .card:hover .service-ico {
+          background: linear-gradient(135deg, rgba(255, 140, 0, 0.25) 0%, rgba(255, 107, 53, 0.15) 100%);
+          border-color: rgba(255, 140, 0, 0.4);
+          transform: scale(1.1);
+        }
+
+        .card h3 {
+          margin: 0;
+          font-size: 1.1rem;
+          color: #ffffff;
+          font-weight: 600;
+          letter-spacing: 0.3px;
+          transition: color 0.3s ease;
+        }
+
+        .card:hover h3 {
+          color: #ff8c00;
         }
 
         .card p {
-          color: var(--muted);
+          color: #e0e7ff;
+          margin: 0;
+          font-size: 0.95rem;
+          line-height: 1.6;
+          transition: color 0.3s ease;
+        }
+
+        .card:hover p {
+          color: #e8eef8;
         }
 
         @media (max-width: 980px) {
           .grid.cols-3 {
             grid-template-columns: repeat(2, 1fr);
           }
+
+          .section-title h2::after {
+            width: 50px;
+          }
         }
 
-        @media (max-width: 580px) {
+        @media (max-width: 640px) {
+          .services-section {
+            padding: clamp(40px, 5vw, 64px) 0;
+          }
+
           .grid.cols-3 {
             grid-template-columns: 1fr;
+          }
+
+          .section-title {
+            flex-direction: column;
+            align-items: flex-start;
+            margin-bottom: 32px;
+          }
+
+          .section-title h2 {
+            font-size: 1.6rem;
+          }
+
+          .card {
+            padding: 20px;
+          }
+
+          .service-ico {
+            width: 44px;
+            height: 44px;
+            font-size: 24px;
           }
         }
       `}</style>
     </section>
-  )
+  );
 }

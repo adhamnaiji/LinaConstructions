@@ -1,4 +1,5 @@
-"use client"
+
+"use client";
 import { FaPhone, FaEnvelope, FaMapMarkerAlt, FaFacebook, FaInstagram } from "react-icons/fa";
 
 export default function Footer() {
@@ -65,9 +66,31 @@ export default function Footer() {
       <style jsx>{`
         footer {
           margin-top: 42px;
-          background: linear-gradient(180deg, var(--card), color-mix(in srgb, var(--hero) 90%, var(--card)));
-          color: #cfd6df;
-          border-top: 1px solid var(--line);
+          background: linear-gradient(135deg, #1a1a1a 0%, #2a2a2a 50%, #1f1f1f 100%);
+          color: #e0e7ff;
+          border-top: 3px solid #ff8c00;
+          position: relative;
+          overflow: hidden;
+        }
+
+        footer::before {
+          content: '';
+          position: absolute;
+          top: 0;
+          left: 0;
+          right: 0;
+          height: 4px;
+          background: linear-gradient(90deg, #ff8c00 0%, #ff6b35 50%, #ff8c00 100%);
+        }
+
+        footer::after {
+          content: '';
+          position: absolute;
+          bottom: 0;
+          left: 0;
+          right: 0;
+          height: 2px;
+          background: linear-gradient(90deg, transparent 0%, #ff8c00 50%, transparent 100%);
         }
 
         .fgrid {
@@ -75,43 +98,79 @@ export default function Footer() {
           grid-template-columns: repeat(4, 1fr);
           gap: 18px;
           padding: 32px 0;
+          position: relative;
+          z-index: 1;
+        }
+
+        .foot {
+          padding: 0 12px;
         }
 
         .foot h4 {
-          color: white;
+          color: #ffffff;
           margin: 0.2rem 0 0.6rem;
           font-size: 1.05rem;
+          font-weight: 600;
+          letter-spacing: 0.5px;
+          position: relative;
+          display: inline-block;
+        }
+
+        .foot h4::after {
+          content: '';
+          position: absolute;
+          bottom: -6px;
+          left: 0;
+          width: 30px;
+          height: 2px;
+          background: #ff8c00;
         }
 
         .foot a {
           display: block;
-          color: #cfd6df;
+          color: #e0e7ff;
           text-decoration: none;
           padding: 0.2rem 0;
-          transition: color 0.2s;
+          transition: all 0.3s ease;
+          font-size: 0.95rem;
+          margin-top: 8px;
         }
 
         .foot a:hover {
-          color: var(--brand);
+          color: #ff8c00;
+          transform: translateX(4px);
         }
 
-        /* ADD THIS: Make icons appear on left with text on right */
+        /* Icons and text alignment */
         .contact-link,
         .social-link {
           display: flex !important;
           align-items: center;
-          gap: 8px;
+          gap: 10px;
+          color: #e0e7ff !important;
+        }
+
+        .contact-link:hover,
+        .social-link:hover {
+          color: #ff8c00 !important;
         }
 
         .contact-link .icon,
         .social-link .icon {
           font-size: 16px;
           flex-shrink: 0;
+          color: #ff8c00;
+          transition: all 0.3s ease;
+        }
+
+        .contact-link:hover .icon,
+        .social-link:hover .icon {
+          transform: scale(1.2);
         }
 
         .contact-link.highlight {
-          background-color: var(--brand);
-          color: white;
+          background-color: #ff8c00;
+          color: #1a1a1a;
           padding: 8px 12px;
           border-radius: 4px;
           font-weight: bold;
@@ -120,31 +179,41 @@ export default function Footer() {
         }
 
         .contact-link.highlight:hover {
-          opacity: 0.9;
+          background-color: #ff6b35;
+          transform: scale(1.05);
         }
 
         .copy {
-          border-top: 1px solid var(--line);
-          color: #98a2b3;
+          border-top: 1px solid rgba(255, 140, 0, 0.3);
+          color: #a8b2c1;
           padding: 12px 0;
           font-size: 0.95rem;
+          position: relative;
+          z-index: 1;
         }
 
         .copy a {
-          color: inherit;
+          color: #ff8c00;
           text-decoration: none;
+          transition: color 0.3s ease;
+          font-weight: 500;
         }
 
         .copy a:hover {
-          color: var(--brand);
+          color: #ff6b35;
+          text-decoration: underline;
         }
 
         @media (max-width: 768px) {
           .fgrid {
             grid-template-columns: 1fr;
           }
+
+          .foot h4::after {
+            width: 20px;
+          }
         }
       `}</style>
     </footer>
-  )
+  );
 }

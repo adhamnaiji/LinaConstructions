@@ -122,255 +122,356 @@ export default function ContactForm() {
   };
 
   return (
-    <div style={{ marginLeft: "20px", marginRight: "20px" }}>
-      <form
-        onSubmit={handleSubmit}
-        style={{ maxWidth: "600px", margin: "0 auto" }}
-      >
-        {message && (
-          <div
-            style={{
-              padding: "15px",
-              marginBottom: "20px",
-              borderRadius: "4px",
-              backgroundColor:
-                messageType === "success" ? "#d4edda" : "#f8d7da",
-              color: messageType === "success" ? "#155724" : "#721c24",
-              border: `1px solid ${
-                messageType === "success" ? "#c3e6cb" : "#f5c6cb"
-              }`,
-              fontSize: "14px",
-            }}
-            role="alert"
-          >
-            {message}
+    <section className="contact-section">
+      <div className="contact-container">
+        <h2 className="contact-title">Demander un Devis</h2>
+        <p className="contact-subtitle">
+          Remplissez le formulaire ci-dessous et nous vous répondrons dans les
+          24 heures
+        </p>
+
+        <form onSubmit={handleSubmit} className="contact-form">
+          {message && (
+            <div
+              className={`message-alert ${
+                messageType === "success" ? "success" : "error"
+              }`}
+              role="alert"
+            >
+              {message}
+            </div>
+          )}
+
+          <div className="form-group">
+            <label htmlFor="nom" className="form-label">
+              Nom *
+            </label>
+            <input
+              type="text"
+              id="nom"
+              name="nom"
+              value={formData.nom}
+              onChange={handleChange}
+              required
+              className="form-input"
+              placeholder="Votre nom complet"
+            />
           </div>
-        )}
 
-        <div style={{ marginBottom: "15px" }}>
-          <label
-            htmlFor="nom"
-            style={{
-              display: "block",
-              marginBottom: "5px",
-              fontWeight: "bold",
+          <div className="form-group">
+            <label htmlFor="email" className="form-label">
+              Email *
+            </label>
+            <input
+              type="email"
+              id="email"
+              name="email"
+              value={formData.email}
+              onChange={handleChange}
+              required
+              className="form-input"
+              placeholder="votre.email@example.com"
+            />
+          </div>
+
+          <div className="form-group">
+            <label htmlFor="telephone" className="form-label">
+              Téléphone *
+            </label>
+            <input
+              type="tel"
+              id="telephone"
+              name="telephone"
+              value={formData.telephone}
+              onChange={handleChange}
+              required
+              className="form-input"
+              placeholder="XXX XXX XXX"
+            />
+          </div>
+
+          <div className="form-group">
+            <label htmlFor="typeProjet" className="form-label">
+              Type de projet *
+            </label>
+            <select
+              id="typeProjet"
+              name="typeProjet"
+              value={formData.typeProjet}
+              onChange={handleChange}
+              required
+              className="form-select"
+            >
+              <option value="">Sélectionnez un type de projet</option>
+              <option value="Construction">Construction</option>
+              <option value="Rénovation">Rénovation</option>
+              <option value="Extension">Extension</option>
+              <option value="Aménagement">Aménagement</option>
+              <option value="Autre">Autre</option>
+            </select>
+          </div>
+
+          <div className="form-group">
+            <label htmlFor="budget" className="form-label">
+              Budget (optionnel)
+            </label>
+            <input
+              type="text"
+              id="budget"
+              name="budget"
+              value={formData.budget}
+              onChange={handleChange}
+              className="form-input"
+              placeholder="ex: 50,000 - 100,000 €"
+            />
+          </div>
+
+          <div className="form-group">
+            <label htmlFor="description" className="form-label">
+              Description du projet *
+            </label>
+            <textarea
+              id="description"
+              name="description"
+              value={formData.description}
+              onChange={handleChange}
+              required
+              className="form-textarea"
+              placeholder="Décrivez votre projet en détail..."
+              rows={6}
+            />
+          </div>
+
+          <button
+            type="submit"
+            disabled={loading}
+            className={`submit-button ${loading ? "loading" : ""}`}
+            onMouseEnter={(e) => {
+              if (!loading)
+                (e.target as HTMLButtonElement).style.backgroundColor =
+                  "#ff6b35";
+            }}
+            onMouseLeave={(e) => {
+              if (!loading)
+                (e.target as HTMLButtonElement).style.backgroundColor =
+                  "#ff8c00";
             }}
           >
-            Nom *
-          </label>
-          <input
-            type="text"
-            id="nom"
-            name="nom"
-            value={formData.nom}
-            onChange={handleChange}
-            required
-            style={{
-              width: "100%",
-              padding: "10px",
-              border: "1px solid #ddd",
-              borderRadius: "4px",
-              fontSize: "14px",
-              boxSizing: "border-box",
-            }}
-            placeholder="Votre nom complet"
-          />
-        </div>
+            {loading ? "Envoi en cours..." : "Envoyer ma demande"}
+          </button>
+        </form>
+      </div>
 
-        <div style={{ marginBottom: "15px" }}>
-          <label
-            htmlFor="email"
-            style={{
-              display: "block",
-              marginBottom: "5px",
-              fontWeight: "bold",
-            }}
-          >
-            Email *
-          </label>
-          <input
-            type="email"
-            id="email"
-            name="email"
-            value={formData.email}
-            onChange={handleChange}
-            required
-            style={{
-              width: "100%",
-              padding: "10px",
-              border: "1px solid #ddd",
-              borderRadius: "4px",
-              fontSize: "14px",
-              boxSizing: "border-box",
-            }}
-            placeholder="votre.email@example.com"
-          />
-        </div>
+      <style jsx>{`
+        .contact-section {
+          background: linear-gradient(135deg, #1a1a1a 0%, #2a2a2a 50%, #1f1f1f 100%);
+          padding: 60px 20px;
+          border-top: 3px solid #ff8c00;
+          border-bottom: 2px solid #ff8c00;
+          position: relative;
+          overflow: hidden;
+        }
 
-        <div style={{ marginBottom: "15px" }}>
-          <label
-            htmlFor="telephone"
-            style={{
-              display: "block",
-              marginBottom: "5px",
-              fontWeight: "bold",
-            }}
-          >
-            Téléphone *
-          </label>
-          <input
-            type="tel"
-            id="telephone"
-            name="telephone"
-            value={formData.telephone}
-            onChange={handleChange}
-            required
-            style={{
-              width: "100%",
-              padding: "10px",
-              border: "1px solid #ddd",
-              borderRadius: "4px",
-              fontSize: "14px",
-              boxSizing: "border-box",
-            }}
-            placeholder="XXX XXX XXX"
-          />
-        </div>
+        .contact-section::before {
+          content: '';
+          position: absolute;
+          top: 0;
+          left: 0;
+          right: 0;
+          height: 4px;
+          background: linear-gradient(90deg, #ff8c00 0%, #ff6b35 50%, #ff8c00 100%);
+          z-index: 1;
+        }
 
-        <div style={{ marginBottom: "15px" }}>
-          <label
-            htmlFor="typeProjet"
-            style={{
-              display: "block",
-              marginBottom: "5px",
-              fontWeight: "bold",
-            }}
-          >
-            Type de projet *
-          </label>
-          <select
-            id="typeProjet"
-            name="typeProjet"
-            value={formData.typeProjet}
-            onChange={handleChange}
-            required
-            style={{
-              width: "100%",
-              padding: "10px",
-              border: "1px solid #ddd",
-              borderRadius: "4px",
-              fontSize: "14px",
-              boxSizing: "border-box",
-            }}
-          >
-            <option style={{ color: "#000000ff" }} value="">
-              Sélectionnez un type de projet
-            </option>
-            <option style={{ color: "#000000ff" }} value="Construction">
-              Construction
-            </option>
-            <option style={{ color: "#000000ff" }} value="Rénovation">
-              Rénovation
-            </option>
-            <option style={{ color: "#000000ff" }} value="Extension">
-              Extension
-            </option>
-            <option style={{ color: "#000000ff" }} value="Aménagement">
-              Aménagement
-            </option>
-            <option style={{ color: "#000000ff" }} value="Autre">
-              Autre
-            </option>
-          </select>
-        </div>
+        .contact-container {
+          max-width: 600px;
+          margin: 0 auto;
+          position: relative;
+          z-index: 2;
+        }
 
-        <div style={{ marginBottom: "15px" }}>
-          <label
-            htmlFor="budget"
-            style={{
-              display: "block",
-              marginBottom: "5px",
-              fontWeight: "bold",
-            }}
-          >
-            Budget (optionnel)
-          </label>
-          <input
-            type="text"
-            id="budget"
-            name="budget"
-            value={formData.budget}
-            onChange={handleChange}
-            style={{
-              width: "100%",
-              padding: "10px",
-              border: "1px solid #ddd",
-              borderRadius: "4px",
-              fontSize: "14px",
-              boxSizing: "border-box",
-            }}
-            placeholder="$$$ - $$$"
-          />
-        </div>
+        .contact-title {
+          color: #ffffff;
+          font-size: 2.5rem;
+          font-weight: 600;
+          text-align: center;
+          margin-bottom: 12px;
+          letter-spacing: 0.5px;
+          position: relative;
+          display: inline-block;
+          width: 100%;
+        }
 
-        <div style={{ marginBottom: "20px" }}>
-          <label
-            htmlFor="description"
-            style={{
-              display: "block",
-              marginBottom: "5px",
-              fontWeight: "bold",
-            }}
-          >
-            Description du projet *
-          </label>
-          <textarea
-            id="description"
-            name="description"
-            value={formData.description}
-            onChange={handleChange}
-            required
-            style={{
-              width: "100%",
-              padding: "10px",
-              border: "1px solid #ddd",
-              borderRadius: "4px",
-              fontSize: "14px",
-              boxSizing: "border-box",
-              minHeight: "150px",
-              fontFamily: "Arial, sans-serif",
-            }}
-            placeholder="Décrivez votre projet en détail..."
-          />
-        </div>
+        .contact-title::after {
+          content: '';
+          position: absolute;
+          bottom: -12px;
+          left: 50%;
+          transform: translateX(-50%);
+          width: 80px;
+          height: 3px;
+          background: linear-gradient(90deg, #ff8c00 0%, #ff6b35 100%);
+        }
 
-        <button
-          type="submit"
-          disabled={loading}
-          style={{
-            width: "100%",
-            padding: "12px",
-            backgroundColor: loading ? "#ccc" : "#ff9d3a",
-            color: "white",
-            border: "none",
-            borderRadius: "4px",
-            fontSize: "16px",
-            fontWeight: "bold",
-            cursor: loading ? "not-allowed" : "pointer",
-            transition: "background-color 0.3s",
-          }}
-          onMouseEnter={(e) => {
-            if (!loading)
-              (e.target as HTMLButtonElement).style.backgroundColor = "#e68a2e";
-          }}
-          onMouseLeave={(e) => {
-            if (!loading)
-              (e.target as HTMLButtonElement).style.backgroundColor = "#ff9d3a";
-          }}
-        >
-          {loading ? "Envoi en cours..." : "Envoyer ma demande"}
-        </button>
-      </form>
-    </div>
+        .contact-subtitle {
+          color: #e0e7ff;
+          text-align: center;
+          font-size: 1rem;
+          margin-top: 30px;
+          margin-bottom: 40px;
+          line-height: 1.6;
+        }
+
+        .contact-form {
+          background: rgba(26, 26, 26, 0.7);
+          padding: 40px;
+          border-radius: 8px;
+          border: 1px solid rgba(255, 140, 0, 0.2);
+          backdrop-filter: blur(10px);
+        }
+
+        .form-group {
+          margin-bottom: 24px;
+        }
+
+        .form-label {
+          display: block;
+          color: #ffffff;
+          font-weight: 600;
+          margin-bottom: 8px;
+          font-size: 0.95rem;
+          letter-spacing: 0.3px;
+        }
+
+        .form-input,
+        .form-select,
+        .form-textarea {
+          width: 100%;
+          padding: 12px 14px;
+          border: 1px solid rgba(255, 140, 0, 0.3);
+          border-radius: 6px;
+          background-color: rgba(42, 42, 42, 0.8);
+          color: #ffffff;
+          font-size: 0.95rem;
+          transition: all 0.3s ease;
+          box-sizing: border-box;
+          font-family: inherit;
+        }
+
+        .form-input::placeholder,
+        .form-select::placeholder,
+        .form-textarea::placeholder {
+          color: #a8b2c1;
+        }
+
+        .form-input:focus,
+        .form-select:focus,
+        .form-textarea:focus {
+          outline: none;
+          border-color: #ff8c00;
+          background-color: rgba(42, 42, 42, 0.95);
+          box-shadow: 0 0 0 3px rgba(255, 140, 0, 0.2);
+        }
+
+        .form-textarea {
+          min-height: 150px;
+          resize: vertical;
+        }
+
+        .message-alert {
+          padding: 16px;
+          margin-bottom: 24px;
+          border-radius: 6px;
+          font-size: 0.95rem;
+          border: 1px solid;
+          animation: slideDown 0.3s ease;
+        }
+
+        @keyframes slideDown {
+          from {
+            opacity: 0;
+            transform: translateY(-10px);
+          }
+          to {
+            opacity: 1;
+            transform: translateY(0);
+          }
+        }
+
+        .message-alert.success {
+          background-color: rgba(34, 197, 94, 0.1);
+          color: #22c55e;
+          border-color: rgba(34, 197, 94, 0.3);
+        }
+
+        .message-alert.error {
+          background-color: rgba(239, 68, 68, 0.1);
+          color: #ef4444;
+          border-color: rgba(239, 68, 68, 0.3);
+        }
+
+        .submit-button {
+          width: 100%;
+          padding: 14px;
+          background-color: #ff8c00;
+          color: #1a1a1a;
+          border: none;
+          border-radius: 6px;
+          font-size: 1rem;
+          font-weight: 600;
+          cursor: pointer;
+          transition: all 0.3s ease;
+          text-transform: uppercase;
+          letter-spacing: 0.5px;
+          position: relative;
+          overflow: hidden;
+        }
+
+        .submit-button::before {
+          content: '';
+          position: absolute;
+          top: 0;
+          left: -100%;
+          width: 100%;
+          height: 100%;
+          background: rgba(255, 255, 255, 0.1);
+          transition: left 0.3s ease;
+        }
+
+        .submit-button:hover:not(.loading) {
+          background-color: #ff6b35;
+          transform: translateY(-2px);
+          box-shadow: 0 6px 20px rgba(255, 140, 0, 0.3);
+        }
+
+        .submit-button:hover:not(.loading)::before {
+          left: 100%;
+        }
+
+        .submit-button.loading {
+          background-color: #666666;
+          cursor: not-allowed;
+          opacity: 0.7;
+        }
+
+        @media (max-width: 768px) {
+          .contact-section {
+            padding: 40px 16px;
+          }
+
+          .contact-title {
+            font-size: 1.8rem;
+          }
+
+          .contact-form {
+            padding: 24px;
+          }
+
+          .contact-title::after {
+            width: 60px;
+          }
+        }
+      `}</style>
+    </section>
   );
 }
